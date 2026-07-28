@@ -212,7 +212,7 @@ function buildPaypalNote(order) {
   return [
     `RECAP ORDINE Bamboo Cinema Club`,
     `Importo: ${total}`,
-    `Fila: ${order.fila || "-"} | Posto: ${order.posto || order.seat || "-"}`,
+    `Posizione: FILA ${order.fila || "-"} posto ${order.posto || "-"}`,
     `Prodotti: ${items}`,
     `Modifiche food: ${ingredients}`,
   ].join("\n");
@@ -375,16 +375,16 @@ function setupCartUI() {
 
     if (!fila) {
       document.getElementById("fila-input")?.focus();
-      showToast("Indica la fila con una lettera (es. B)");
+      showToast("Indica la fila con una lettera (es. FILA B)");
       return;
     }
     if (!posto) {
       document.getElementById("posto-input")?.focus();
-      showToast("Indica il numero del posto");
+      showToast("Indica il posto (es. posto 12)");
       return;
     }
 
-    const seat = `Fila ${fila} posto ${posto}`;
+    const seat = `FILA ${fila} posto ${posto}`;
     const order = {
       seat,
       fila,
@@ -480,7 +480,7 @@ function initSuccessPage() {
     summary.hidden = false;
     summary.innerHTML = `
       <h2>Riepilogo ordine</h2>
-      <p><strong>Fila:</strong> ${escapeHtml(order.fila || "-")} &nbsp; <strong>Posto:</strong> ${escapeHtml(order.posto || order.seat || "-")}</p>
+      <p><strong>Posizione:</strong> FILA ${escapeHtml(order.fila || "-")} posto ${escapeHtml(order.posto || "-")}</p>
       <ul>${list}</ul>
       <p><strong>Totale da pagare:</strong> ${formatPrice(total)}</p>
       <p><strong>Modifiche ingredienti:</strong> ${escapeHtml(order.ingredients || "Nessuna")}</p>
