@@ -53,15 +53,6 @@ const PRODUCTS = [
     price: 3,
   },
   {
-    id: "iscrizione-club",
-    category: "ingresso",
-    name: "Iscrizione Club — 1 anno",
-    description:
-      "Diventa parte del club: partecipi a tutte le proiezioni e vieni invitato automaticamente al club privato per ogni evento.",
-    note: "Offerta di iscrizione annuale.",
-    price: 50,
-  },
-  {
     id: "biglietto",
     category: "ingresso",
     name: "Biglietto Ingresso",
@@ -209,10 +200,10 @@ function renderMenu() {
   });
 }
 
-const NO_SEAT_PRODUCTS = new Set(["biglietto", "iscrizione-club"]);
+const NO_SEAT_PRODUCTS = new Set(["biglietto"]);
 
 function cartNeedsSeat() {
-  // Biglietto e iscrizione club: niente fila/posto. Food/drink/formule sì.
+  // Solo biglietto ingresso: niente fila/posto. Food/drink/formule sì.
   return cart.some((line) => !NO_SEAT_PRODUCTS.has(line.id));
 }
 
@@ -230,7 +221,7 @@ function buildPaypalNote(order) {
     lines.push(`Posizione: FILA ${order.fila || "-"} posto ${order.posto || "-"}`);
     lines.push(`Modifiche food: ${ingredients}`);
   } else {
-    lines.push(`Nessuna posizione richiesta (biglietto e/o iscrizione club)`);
+    lines.push(`Solo biglietto ingresso (senza fila/posto)`);
   }
   lines.push(`Prodotti: ${items}`);
   return lines.join("\n");
@@ -411,7 +402,7 @@ function setupCartUI() {
       }
     }
 
-    const seat = needsSeat ? `FILA ${fila} posto ${posto}` : "Nessuna posizione";
+    const seat = needsSeat ? `FILA ${fila} posto ${posto}` : "Solo biglietto";
     const order = {
       seat,
       fila: needsSeat ? fila : "",
@@ -509,7 +500,7 @@ function initSuccessPage() {
       ${
         order.needsSeat
           ? `<p><strong>Posizione:</strong> FILA ${escapeHtml(order.fila || "-")} posto ${escapeHtml(order.posto || "-")}</p>`
-          : `<p><strong>Posizione:</strong> non richiesta (biglietto / iscrizione)</p>`
+          : `<p><strong>Posizione:</strong> non richiesta (solo biglietto)</p>`
       }
       <ul>${list}</ul>
       <p><strong>Totale da pagare:</strong> ${formatPrice(total)}</p>
@@ -525,7 +516,7 @@ function initSuccessPage() {
   if (alertEl) {
     alertEl.innerHTML = order.needsSeat
       ? `L’importo del carrello è già impostato su PayPal. Seleziona <strong>Amici e parenti</strong>. <strong>Copia/incolla la nota</strong> (es. FILA B posto 12 + modifiche), altrimenti l’ordine non è valido.`
-      : `L’importo è già impostato su PayPal. Seleziona <strong>Amici e parenti</strong> e <strong>incolla la nota</strong>. Per biglietto e/o iscrizione club non serve fila e posto.`;
+      : `L’importo del biglietto è già impostato su PayPal. Seleziona <strong>Amici e parenti</strong> e <strong>incolla la nota</strong>. Per il solo biglietto non serve fila e posto.`;
   }
 
   if (noteBox && noteText) {
