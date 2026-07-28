@@ -891,6 +891,17 @@ body.cart-open {
   letter-spacing: 0.08em;
 }
 
+.success-alert {
+  max-width: 28rem;
+  margin: 0.85rem 0 0;
+  padding: 0.85rem 1rem;
+  color: var(--cream) !important;
+  background: rgba(118, 163, 69, 0.12);
+  border: 1px solid rgba(118, 163, 69, 0.35);
+  border-radius: var(--radius);
+  font-weight: 400 !important;
+}
+
 .paypal-note-box {
   width: min(28rem, 100%);
   margin-top: 1.25rem;
