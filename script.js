@@ -11,7 +11,6 @@ const CONFIG = {
   successPage: "success.html",
   cartKey: "bamboo-cart",
   orderKey: "bamboo-pending-order",
-  waOpenedKey: "bamboo-wa-opened",
 };
 
 const PRODUCTS = [
@@ -208,18 +207,42 @@ function buildOrderMessage(order) {
     ? order.ingredients.trim()
     : "Nessuna";
   return [
-    "🎬 Nuovo ordine — Bamboo Cinema Club",
+    "Bamboo Cinema Club — ordine",
     `Posto: ${order.seat}`,
-    "",
-    "Prodotti:",
-    ...lines,
-    "",
+    `Prodotti: ${order.items.map((i) => `${i.qty}x ${i.name}`).join(", ")}`,
     `Totale: ${formatPrice(order.total)}`,
-    `Modifiche ingredienti: ${ingredients}`,
-    "",
-    "Ho pagato / sto pagando con PayPal.",
+    `Modifiche: ${ingredients}`,
   ].join("\n");
 }
+
+function buildPaypalNote(order) {
+  // Nota compatta per il campo nota di PayPal
+  const items = order.items.map((i) => `${i.qty}x ${i.name}`).join(", ");
+  const ingredients = order.ingredients?.trim() || "nessuna";
+  return `Posto ${order.seat} | ${items} | Modifiche: ${ingredients} | Tot ${formatPrice(order.total)}`;
+}
+
+async function copyText(text) {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    /* fallback below */
+  }
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.left = "-9999px";
+  document.body.appendChild(area);
+  area.select();
+  const ok = document.execCommand("copy");
+  area.remove();
+  return ok;
+}
+
 
 function whatsappUrl(text) {
   return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
@@ -370,7 +393,6 @@ function setupCartUI() {
     };
 
     sessionStorage.setItem(CONFIG.orderKey, JSON.stringify(order));
-    sessionStorage.removeItem(CONFIG.waOpenedKey);
     localStorage.removeItem(CONFIG.cartKey);
     cart = [];
     window.location.href = CONFIG.successPage;
@@ -410,27 +432,14 @@ function setupCategoryNav() {
   if (hash && document.querySelector(`[data-panel="${hash}"]`)) showCategory(hash);
 }
 
-function setPaypalUnlocked(unlocked) {
-  const pay = document.getElementById("pay-paypal");
-  const hint = document.getElementById("paypal-lock-hint");
-  if (!pay) return;
-
-  if (unlocked) {
-    pay.classList.remove("is-locked");
-    pay.removeAttribute("aria-disabled");
-    if (hint) hint.hidden = true;
-  } else {
-    pay.classList.add("is-locked");
-    pay.setAttribute("aria-disabled", "true");
-    if (hint) hint.hidden = false;
-  }
-}
-
 function initSuccessPage() {
   const summary = document.getElementById("order-summary");
   const notify = document.getElementById("notify-whatsapp");
   const pay = document.getElementById("pay-paypal");
   const assist = document.getElementById("whatsapp-link");
+  const noteBox = document.getElementById("paypal-note-box");
+  const noteText = document.getElementById("paypal-note-text");
+  const copyBtn = document.getElementById("copy-paypal-note");
   if (assist) assist.href = whatsappUrl(CONFIG.whatsappMessage);
 
   let order = null;
@@ -448,6 +457,8 @@ function initSuccessPage() {
     return;
   }
 
+  const paypalNote = buildPaypalNote(order);
+
   if (summary) {
     const list = order.items
       .map((item) => `<li>${item.qty}× ${escapeHtml(item.name)} — ${formatPrice(item.lineTotal)}</li>`)
@@ -463,40 +474,33 @@ function initSuccessPage() {
     `;
   }
 
-  const waHref = whatsappUrl(buildOrderMessage(order));
+  if (noteBox && noteText) {
+    noteBox.hidden = false;
+    noteText.textContent = paypalNote;
+  }
+
+  copyBtn?.addEventListener("click", async () => {
+    const ok = await copyText(paypalNote);
+    showToast(ok ? "Nota copiata: incollala su PayPal" : "Copia manualmente la nota");
+  });
 
   if (notify) {
     notify.hidden = false;
-    notify.href = waHref;
-    notify.addEventListener("click", () => {
-      sessionStorage.setItem(CONFIG.waOpenedKey, "1");
-      setPaypalUnlocked(true);
-    });
+    notify.href = whatsappUrl(buildOrderMessage(order));
   }
 
   if (pay) {
     pay.hidden = false;
     pay.href = paypalUrlFor(order.total);
-    pay.textContent = `2. Paga ${formatPrice(order.total)} con PayPal`;
-    pay.addEventListener("click", (event) => {
-      if (pay.classList.contains("is-locked")) {
-        event.preventDefault();
-        showToast("Prima invia il WhatsApp al cuoco");
-        notify?.focus();
-      }
+    pay.textContent = `Paga ${formatPrice(order.total)} con PayPal`;
+    pay.addEventListener("click", async () => {
+      const ok = await copyText(paypalNote);
+      showToast(
+        ok
+          ? "Nota copiata. Su PayPal: Aggiungi una nota → Incolla"
+          : "Copia la nota e incollala su PayPal"
+      );
     });
-  }
-
-  const alreadyOpened = sessionStorage.getItem(CONFIG.waOpenedKey) === "1";
-  setPaypalUnlocked(alreadyOpened);
-
-  // Apre automaticamente WhatsApp verso il cuoco (l’utente deve solo toccare Invia)
-  if (!alreadyOpened) {
-    sessionStorage.setItem(CONFIG.waOpenedKey, "1");
-    setPaypalUnlocked(true);
-    window.setTimeout(() => {
-      window.location.href = waHref;
-    }, 450);
   }
 }
 
