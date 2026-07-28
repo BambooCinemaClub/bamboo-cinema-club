@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -90,7 +90,20 @@
 
   <footer class="site-footer">
     <p class="footer-brand">Bamboo Cinema Club</p>
-    <p class="footer-copy">Carrello · PayPal · Nota ordine obbligatoria</p>
+    <p class="footer-copy">Carrello · PayPal · Notifica ordine via WhatsApp</p>
+    <div class="promo-video-wrap">
+      <video
+        class="promo-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Clip Bamboo Cinema Club"
+      >
+        <source src="assets/promo.mp4" type="video/mp4">
+      </video>
+    </div>
   </footer>
 
   <div class="cart-bar" id="cart-bar" hidden>
@@ -185,6 +198,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=20" defer></script>
+  <script src="script.js?v=21" defer></script>
 </body>
 </html>

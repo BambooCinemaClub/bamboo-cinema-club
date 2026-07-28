@@ -500,6 +500,24 @@ main {
   font-weight: 300;
 }
 
+.promo-video-wrap {
+  width: min(22rem, 92%);
+  margin: 1.25rem auto 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: #000;
+  aspect-ratio: 320 / 220;
+}
+
+.promo-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
 /* ——— Cart bar / drawer ——— */
 
 .cart-bar {
