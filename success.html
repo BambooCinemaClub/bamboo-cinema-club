@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Conferma pagamento — Bamboo Cinema Club">
   <meta name="theme-color" content="#0b140a">
-  <title>Pagamento inviato — Bamboo Cinema Club</title>
+  <title>Conferma ordine — Bamboo Cinema Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,17 +24,36 @@
       style="width: min(200px, 70vw); margin-bottom: 1.5rem;"
     >
     <div class="success-mark" aria-hidden="true">✓</div>
-    <h1>Grazie!</h1>
+    <h1>Conferma ordine</h1>
     <p>
-      Il pagamento è stato inviato tramite PayPal.
-      Mostra questa schermata o la ricevuta PayPal al personale per confermare l’ordine.
+      Controlla il riepilogo. Paga il totale su PayPal (il locale riceve la notifica PayPal),
+      poi invia l’ordine su WhatsApp con posto e note.
     </p>
-    <p>
-      Nota: un sito statico non verifica automaticamente l’esito del pagamento.
-      Il personale controllerà la ricevuta prima di evadere l’ordine.
-    </p>
-    <div class="success-actions">
-      <a class="btn-buy" href="index.html">Torna al menu</a>
+
+    <div id="order-summary" class="order-summary" hidden></div>
+
+    <div class="success-actions success-actions-stack">
+      <a
+        class="btn-buy"
+        id="pay-paypal"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        hidden
+      >
+        1. Paga con PayPal
+      </a>
+      <a
+        class="btn-buy btn-whatsapp"
+        id="notify-whatsapp"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        hidden
+      >
+        2. Invia ordine su WhatsApp
+      </a>
+      <a class="btn-secondary" href="index.html">Torna al menu</a>
       <a
         class="btn-secondary"
         id="whatsapp-link"
@@ -42,7 +61,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        Assistenza WhatsApp
+        Assistenza
       </a>
     </div>
   </main>
