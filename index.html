@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -36,6 +36,7 @@
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="food">Food</button>
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
+        <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="sostieni">Sostieni</button>
       </div>
     </div>
     <div class="finalize-under-options">
@@ -85,6 +86,24 @@
       <p class="allergens-note">
         Elenco dimostrativo da aggiornare con le dichiarazioni ufficiali del locale.
       </p>
+    </section>
+
+    <section id="sostieni" class="support-section" aria-labelledby="sostieni-heading" data-panel="sostieni" hidden>
+      <h2 id="sostieni-heading" class="section-title">Sostieni il progetto</h2>
+      <p class="support-text">
+        Credi nel progetto <strong>Bamboo Cinema Club</strong>?
+        Dai il tuo supporto attivo con una <strong>donazione a tua discrezione</strong>:
+        potremo creare nuovi eventi di questo calibro, migliorando e investendo
+        sulla tecnologia e sul servizio.
+      </p>
+      <a
+        class="btn-buy support-donate"
+        href="https://www.paypal.com/paypalme/florianoserafin"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Dona con PayPal
+      </a>
     </section>
   </main>
 
@@ -204,6 +223,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=23" defer></script>
+  <script src="script.js?v=24" defer></script>
 </body>
 </html>

@@ -183,6 +183,10 @@ body::before {
   min-width: 0;
 }
 
+.category-nav-inner .category-btn:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
 .category-nav-inner::-webkit-scrollbar {
   display: none;
 }
@@ -473,6 +477,41 @@ main {
 .allergens-note {
   font-style: italic;
   opacity: 0.85;
+}
+
+.support-section {
+  scroll-margin-top: 5rem;
+  padding: 1.35rem 1.1rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(118, 163, 69, 0.12), rgba(19, 33, 16, 0.55));
+}
+
+.support-section[hidden] {
+  display: none !important;
+}
+
+.support-section .section-title {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0.75rem;
+}
+
+.support-text {
+  margin: 0 0 1.25rem;
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--cream-soft);
+}
+
+.support-text strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+.support-donate {
+  width: 100%;
 }
 
 /* ——— Footer ——— */
