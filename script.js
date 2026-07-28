@@ -88,12 +88,13 @@ const productById = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
 let cart = loadCart();
 
 function paypalUrlFor(price) {
-  const base = CONFIG.paypalMe.replace(/\/$/, "");
   const amount = Number(price);
-  if (!Number.isFinite(amount) || amount <= 0) return base;
-  // Importo già compilato dal totale carrello (es. /12EUR)
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return "https://www.paypal.com/paypalme/florianoserafin";
+  }
+  // Formato ufficiale: apre la schermata di pagamento con importo già compilato
   const formatted = Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
-  return `${base}/${formatted}EUR`;
+  return `https://www.paypal.com/paypalme/florianoserafin/${formatted}EUR`;
 }
 
 function formatPrice(euros) {
@@ -211,10 +212,18 @@ function buildPaypalNote(order) {
   return [
     `RECAP ORDINE Bamboo Cinema Club`,
     `Importo: ${total}`,
-    `Posto/fila: ${order.seat}`,
+    `Fila: ${order.fila || "-"} | Posto: ${order.posto || order.seat || "-"}`,
     `Prodotti: ${items}`,
     `Modifiche food: ${ingredients}`,
   ].join("\n");
+}
+
+function readSeatFields() {
+  const filaRaw = document.getElementById("fila-input")?.value.trim().toUpperCase() || "";
+  const postoRaw = document.getElementById("posto-input")?.value.trim() || "";
+  const fila = filaRaw.replace(/[^A-Z]/g, "").slice(0, 1);
+  const posto = postoRaw.replace(/\D/g, "");
+  return { fila, posto };
 }
 
 async function copyText(text) {
@@ -261,7 +270,7 @@ function openCheckout() {
   overlay.hidden = false;
   document.body.classList.add("cart-open");
   renderCart();
-  document.getElementById("seat-input")?.focus();
+  document.getElementById("fila-input")?.focus();
 }
 
 function closeCheckout() {
@@ -360,18 +369,26 @@ function setupCartUI() {
     event.preventDefault();
     if (cart.length === 0) return;
 
-    const seat = document.getElementById("seat-input")?.value.trim() || "";
+    const { fila, posto } = readSeatFields();
     const ingredients =
       document.getElementById("ingredients-input")?.value.trim() || "";
 
-    if (!seat) {
-      document.getElementById("seat-input")?.focus();
-      showToast("Indica il posto a sedere");
+    if (!fila) {
+      document.getElementById("fila-input")?.focus();
+      showToast("Indica la fila con una lettera (es. B)");
+      return;
+    }
+    if (!posto) {
+      document.getElementById("posto-input")?.focus();
+      showToast("Indica il numero del posto");
       return;
     }
 
+    const seat = `Fila ${fila} posto ${posto}`;
     const order = {
       seat,
+      fila,
+      posto,
       ingredients,
       total: cartTotal(),
       createdAt: new Date().toISOString(),
@@ -463,7 +480,7 @@ function initSuccessPage() {
     summary.hidden = false;
     summary.innerHTML = `
       <h2>Riepilogo ordine</h2>
-      <p><strong>Posto:</strong> ${escapeHtml(order.seat)}</p>
+      <p><strong>Fila:</strong> ${escapeHtml(order.fila || "-")} &nbsp; <strong>Posto:</strong> ${escapeHtml(order.posto || order.seat || "-")}</p>
       <ul>${list}</ul>
       <p><strong>Totale da pagare:</strong> ${formatPrice(total)}</p>
       <p><strong>Modifiche ingredienti:</strong> ${escapeHtml(order.ingredients || "Nessuna")}</p>
@@ -482,15 +499,22 @@ function initSuccessPage() {
 
   if (pay) {
     pay.hidden = false;
+    pay.removeAttribute("target");
+    pay.rel = "noopener noreferrer";
     pay.href = paypalHref;
     pay.textContent = `Paga ${formatPrice(total)} con PayPal`;
-    pay.addEventListener("click", async () => {
+    pay.addEventListener("click", async (event) => {
+      event.preventDefault();
       const ok = await copyText(paypalNote);
       showToast(
         ok
           ? "Nota copiata. Su PayPal: Aggiungi una nota → Incolla"
           : "Copia la nota e incollala su PayPal"
       );
+      // Stessa finestra: apre il pagamento con importo già impostato
+      window.setTimeout(() => {
+        window.location.href = paypalHref;
+      }, ok ? 350 : 600);
     });
   }
 }

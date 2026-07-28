@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -27,8 +27,9 @@
     <h1>Paga con PayPal</h1>
     <p class="success-alert">
       L’importo del carrello è già impostato su PayPal.
-      <strong>Incolla la nota qui sotto nel campo “Aggiungi una nota”</strong>
-      (posto, fila e modifiche food), altrimenti l’ordine non è valido.
+      <strong>Copia/incolla la nota</strong> nel campo “Aggiungi una nota”
+      (fila lettera + posto + modifiche), altrimenti l’ordine non è valido.
+      PayPal non permette di precompilare la nota in automatico.
     </p>
 
     <div id="order-summary" class="order-summary" hidden></div>
@@ -46,7 +47,6 @@
         class="btn-buy"
         id="pay-paypal"
         href="#"
-        target="_blank"
         rel="noopener noreferrer"
         hidden
       >
@@ -64,6 +64,6 @@
       </a>
     </div>
   </main>
-  <script src="script.js?v=13" defer></script>
+  <script src="script.js?v=14" defer></script>
 </body>
 </html>

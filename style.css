@@ -744,6 +744,20 @@ body.cart-open {
   gap: 0.85rem;
 }
 
+.seat-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+#fila-input {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
 .field {
   display: flex;
   flex-direction: column;
