@@ -89,8 +89,11 @@ let cart = loadCart();
 
 function paypalUrlFor(price) {
   const base = CONFIG.paypalMe.replace(/\/$/, "");
-  const amount = Number.isInteger(price) ? String(price) : price.toFixed(2);
-  return `${base}/${amount}EUR`;
+  const amount = Number(price);
+  if (!Number.isFinite(amount) || amount <= 0) return base;
+  // Importo già compilato dal totale carrello (es. /12EUR)
+  const formatted = Number.isInteger(amount) ? String(amount) : amount.toFixed(2);
+  return `${base}/${formatted}EUR`;
 }
 
 function formatPrice(euros) {
@@ -199,27 +202,10 @@ function renderMenu() {
   });
 }
 
-function buildOrderMessage(order) {
-  const lines = order.items.map(
-    (item) => `• ${item.qty}× ${item.name} (${formatPrice(item.lineTotal)})`
-  );
-  const ingredients = order.ingredients?.trim()
-    ? order.ingredients.trim()
-    : "Nessuna";
-  return [
-    "Bamboo Cinema Club — ordine",
-    `Posto: ${order.seat}`,
-    `Prodotti: ${order.items.map((i) => `${i.qty}x ${i.name}`).join(", ")}`,
-    `Totale: ${formatPrice(order.total)}`,
-    `Modifiche: ${ingredients}`,
-  ].join("\n");
-}
-
 function buildPaypalNote(order) {
-  // Nota compatta per il campo nota di PayPal
   const items = order.items.map((i) => `${i.qty}x ${i.name}`).join(", ");
   const ingredients = order.ingredients?.trim() || "nessuna";
-  return `Posto ${order.seat} | ${items} | Modifiche: ${ingredients} | Tot ${formatPrice(order.total)}`;
+  return `Posto/fila: ${order.seat} | ${items} | Modifiche: ${ingredients} | Tot ${formatPrice(order.total)}`;
 }
 
 async function copyText(text) {
