@@ -200,19 +200,29 @@ function renderMenu() {
   });
 }
 
+function cartNeedsSeat() {
+  // Solo biglietto ingresso: niente fila/posto. Food/drink/formule sì.
+  return cart.some((line) => line.id !== "biglietto");
+}
+
 function buildPaypalNote(order) {
   const items = order.items
     .map((i) => `${i.qty}x ${i.name} (${formatPrice(i.lineTotal)})`)
     .join(", ");
   const ingredients = order.ingredients?.trim() || "nessuna";
   const total = formatPrice(Number(order.total) || 0);
-  return [
+  const lines = [
     `RECAP ORDINE Bamboo Cinema Club`,
     `Importo: ${total}`,
-    `Posizione: FILA ${order.fila || "-"} posto ${order.posto || "-"}`,
-    `Prodotti: ${items}`,
-    `Modifiche food: ${ingredients}`,
-  ].join("\n");
+  ];
+  if (order.needsSeat) {
+    lines.push(`Posizione: FILA ${order.fila || "-"} posto ${order.posto || "-"}`);
+    lines.push(`Modifiche food: ${ingredients}`);
+  } else {
+    lines.push(`Solo biglietto ingresso (senza fila/posto)`);
+  }
+  lines.push(`Prodotti: ${items}`);
+  return lines.join("\n");
 }
 
 function readSeatFields() {
@@ -256,7 +266,8 @@ function openCheckout() {
   overlay.hidden = false;
   document.body.classList.add("cart-open");
   renderCart();
-  document.getElementById("fila-input")?.focus();
+  if (cartNeedsSeat()) document.getElementById("fila-input")?.focus();
+  else document.getElementById("pay-button")?.focus();
 }
 
 function closeCheckout() {
@@ -343,6 +354,21 @@ function renderCart() {
 
   totalEl.textContent = formatPrice(total);
   if (payBtn) payBtn.textContent = `Invia ordine · ${formatPrice(total)}`;
+
+  const needsSeat = cartNeedsSeat();
+  const seatFields = document.getElementById("seat-fields");
+  const ingredientsField = document.getElementById("ingredients-field");
+  const warningSeat = document.getElementById("checkout-warning-seat");
+  const warningTicket = document.getElementById("checkout-warning-ticket");
+  const filaInput = document.getElementById("fila-input");
+  const postoInput = document.getElementById("posto-input");
+
+  if (seatFields) seatFields.hidden = !needsSeat;
+  if (ingredientsField) ingredientsField.hidden = !needsSeat;
+  if (warningSeat) warningSeat.hidden = !needsSeat;
+  if (warningTicket) warningTicket.hidden = needsSeat;
+  if (filaInput) filaInput.required = needsSeat;
+  if (postoInput) postoInput.required = needsSeat;
 }
 
 function setupCartUI() {
@@ -355,26 +381,31 @@ function setupCartUI() {
     event.preventDefault();
     if (cart.length === 0) return;
 
+    const needsSeat = cartNeedsSeat();
     const { fila, posto } = readSeatFields();
-    const ingredients =
-      document.getElementById("ingredients-input")?.value.trim() || "";
+    const ingredients = needsSeat
+      ? document.getElementById("ingredients-input")?.value.trim() || ""
+      : "";
 
-    if (!fila) {
-      document.getElementById("fila-input")?.focus();
-      showToast("Indica la fila con una lettera (es. FILA B)");
-      return;
-    }
-    if (!posto) {
-      document.getElementById("posto-input")?.focus();
-      showToast("Indica il posto (es. posto 12)");
-      return;
+    if (needsSeat) {
+      if (!fila) {
+        document.getElementById("fila-input")?.focus();
+        showToast("Indica la fila con una lettera (es. FILA B)");
+        return;
+      }
+      if (!posto) {
+        document.getElementById("posto-input")?.focus();
+        showToast("Indica il posto (es. posto 12)");
+        return;
+      }
     }
 
-    const seat = `FILA ${fila} posto ${posto}`;
+    const seat = needsSeat ? `FILA ${fila} posto ${posto}` : "Solo biglietto";
     const order = {
       seat,
-      fila,
-      posto,
+      fila: needsSeat ? fila : "",
+      posto: needsSeat ? posto : "",
+      needsSeat,
       ingredients,
       total: cartTotal(),
       createdAt: new Date().toISOString(),
@@ -464,11 +495,26 @@ function initSuccessPage() {
     summary.hidden = false;
     summary.innerHTML = `
       <h2>Riepilogo ordine</h2>
-      <p><strong>Posizione:</strong> FILA ${escapeHtml(order.fila || "-")} posto ${escapeHtml(order.posto || "-")}</p>
+      ${
+        order.needsSeat
+          ? `<p><strong>Posizione:</strong> FILA ${escapeHtml(order.fila || "-")} posto ${escapeHtml(order.posto || "-")}</p>`
+          : `<p><strong>Posizione:</strong> non richiesta (solo biglietto)</p>`
+      }
       <ul>${list}</ul>
       <p><strong>Totale da pagare:</strong> ${formatPrice(total)}</p>
-      <p><strong>Modifiche ingredienti:</strong> ${escapeHtml(order.ingredients || "Nessuna")}</p>
+      ${
+        order.needsSeat
+          ? `<p><strong>Modifiche ingredienti:</strong> ${escapeHtml(order.ingredients || "Nessuna")}</p>`
+          : ""
+      }
     `;
+  }
+
+  const alertEl = document.getElementById("success-alert");
+  if (alertEl) {
+    alertEl.innerHTML = order.needsSeat
+      ? `L’importo del carrello è già impostato su PayPal. Seleziona <strong>Amici e parenti</strong>. <strong>Copia/incolla la nota</strong> (es. FILA B posto 12 + modifiche), altrimenti l’ordine non è valido.`
+      : `L’importo del biglietto è già impostato su PayPal. Seleziona <strong>Amici e parenti</strong> e <strong>incolla la nota</strong>. Per il solo biglietto non serve fila e posto.`;
   }
 
   if (noteBox && noteText) {

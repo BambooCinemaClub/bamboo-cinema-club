@@ -741,6 +741,13 @@ body.cart-open {
   gap: 0.75rem;
 }
 
+.seat-fields[hidden],
+#ingredients-field[hidden],
+#checkout-warning-seat[hidden],
+#checkout-warning-ticket[hidden] {
+  display: none !important;
+}
+
 #fila-input {
   text-transform: uppercase;
   text-align: center;

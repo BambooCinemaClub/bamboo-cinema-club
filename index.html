@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=22">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -128,14 +128,13 @@
       <ul class="cart-lines" id="cart-lines"></ul>
 
       <form id="checkout-form" class="checkout-form">
-        <div class="seat-fields">
+        <div class="seat-fields" id="seat-fields">
           <label class="field">
             <span>Fila * <em>(es. FILA B)</em></span>
             <input
               type="text"
               id="fila-input"
               name="fila"
-              required
               autocomplete="off"
               placeholder="B"
               maxlength="1"
@@ -150,7 +149,6 @@
               type="text"
               id="posto-input"
               name="posto"
-              required
               autocomplete="off"
               placeholder="12"
               maxlength="4"
@@ -161,7 +159,7 @@
           </label>
         </div>
 
-        <label class="field">
+        <label class="field" id="ingredients-field">
           <span>Eventuali modifiche agli ingredienti <em>(esempio: senza senape)</em></span>
           <textarea
             id="ingredients-input"
@@ -172,12 +170,17 @@
           ></textarea>
         </label>
 
-        <p class="checkout-warning">
+        <p class="checkout-warning" id="checkout-warning-seat">
           Per ricevere l’ordine dovete inserire nella <strong>nota dell’acquisto PayPal</strong>
           la vostra posizione tipo <strong>FILA B posto 12</strong>, più eventuali
           <strong>modifiche al food</strong>. Su PayPal selezionate
           <strong>pagamento Amici e parenti</strong>. Senza nota l’ordine
           <strong>non sarà valido</strong>.
+        </p>
+
+        <p class="checkout-warning" id="checkout-warning-ticket" hidden>
+          Su PayPal selezionate <strong>pagamento Amici e parenti</strong>
+          e incollate la nota ordine. Per il solo biglietto non serve indicare fila e posto.
         </p>
 
         <p class="checkout-hint">
@@ -198,6 +201,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=21" defer></script>
+  <script src="script.js?v=22" defer></script>
 </body>
 </html>
