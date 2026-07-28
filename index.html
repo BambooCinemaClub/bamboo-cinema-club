@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -26,7 +26,7 @@
       decoding="async"
     >
     <p class="tagline">Menu digitale · Ordina e paga dal tuo posto</p>
-    <p class="how-to">Tocca <strong>Aggiungi</strong>, poi <strong>Finalizza ordine</strong> nella barra in basso per posto a sedere e pagamento.</p>
+    <p class="how-to">Tocca <strong>Aggiungi</strong>, poi <strong>Finalizza ordine</strong> sotto le categorie per posto a sedere e pagamento.</p>
   </header>
 
   <nav class="category-nav" aria-label="Categorie menu">
@@ -37,8 +37,10 @@
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
       </div>
-      <button type="button" class="nav-cart-btn" id="cart-open-nav" aria-label="Finalizza ordine">
-        Finalizza
+    </div>
+    <div class="finalize-under-options">
+      <button type="button" class="nav-cart-btn finalize-under-btn" id="cart-open-nav" aria-label="Finalizza ordine">
+        Finalizza ordine
         <span class="cart-badge cart-badge-nav" id="cart-badge-nav" hidden>0</span>
       </button>
     </div>
@@ -199,6 +201,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=17" defer></script>
+  <script src="script.js?v=18" defer></script>
 </body>
 </html>
