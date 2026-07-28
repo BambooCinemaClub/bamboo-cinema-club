@@ -203,9 +203,18 @@ function renderMenu() {
 }
 
 function buildPaypalNote(order) {
-  const items = order.items.map((i) => `${i.qty}x ${i.name}`).join(", ");
+  const items = order.items
+    .map((i) => `${i.qty}x ${i.name} (${formatPrice(i.lineTotal)})`)
+    .join(", ");
   const ingredients = order.ingredients?.trim() || "nessuna";
-  return `Posto/fila: ${order.seat} | ${items} | Modifiche: ${ingredients} | Tot ${formatPrice(order.total)}`;
+  const total = formatPrice(Number(order.total) || 0);
+  return [
+    `RECAP ORDINE Bamboo Cinema Club`,
+    `Importo: ${total}`,
+    `Posto/fila: ${order.seat}`,
+    `Prodotti: ${items}`,
+    `Modifiche food: ${ingredients}`,
+  ].join("\n");
 }
 
 async function copyText(text) {
