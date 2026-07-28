@@ -434,7 +434,6 @@ function setupCategoryNav() {
 
 function initSuccessPage() {
   const summary = document.getElementById("order-summary");
-  const notify = document.getElementById("notify-whatsapp");
   const pay = document.getElementById("pay-paypal");
   const assist = document.getElementById("whatsapp-link");
   const noteBox = document.getElementById("paypal-note-box");
@@ -457,7 +456,9 @@ function initSuccessPage() {
     return;
   }
 
+  const total = Number(order.total) || 0;
   const paypalNote = buildPaypalNote(order);
+  const paypalHref = paypalUrlFor(total);
 
   if (summary) {
     const list = order.items
@@ -469,7 +470,7 @@ function initSuccessPage() {
       <h2>Riepilogo ordine</h2>
       <p><strong>Posto:</strong> ${escapeHtml(order.seat)}</p>
       <ul>${list}</ul>
-      <p><strong>Totale:</strong> ${formatPrice(order.total)}</p>
+      <p><strong>Totale da pagare:</strong> ${formatPrice(total)}</p>
       <p><strong>Modifiche ingredienti:</strong> ${escapeHtml(order.ingredients || "Nessuna")}</p>
     `;
   }
@@ -484,15 +485,10 @@ function initSuccessPage() {
     showToast(ok ? "Nota copiata: incollala su PayPal" : "Copia manualmente la nota");
   });
 
-  if (notify) {
-    notify.hidden = false;
-    notify.href = whatsappUrl(buildOrderMessage(order));
-  }
-
   if (pay) {
     pay.hidden = false;
-    pay.href = paypalUrlFor(order.total);
-    pay.textContent = `Paga ${formatPrice(order.total)} con PayPal`;
+    pay.href = paypalHref;
+    pay.textContent = `Paga ${formatPrice(total)} con PayPal`;
     pay.addEventListener("click", async () => {
       const ok = await copyText(paypalNote);
       showToast(
