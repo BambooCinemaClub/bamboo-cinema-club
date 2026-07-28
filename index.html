@@ -30,15 +30,23 @@
 
   <nav class="category-nav" aria-label="Categorie menu">
     <div class="category-nav-inner" role="tablist">
-      <button type="button" class="category-btn is-active" role="tab" aria-selected="true" data-target="food">Food</button>
+      <button type="button" class="category-btn is-active" role="tab" aria-selected="true" data-target="ingresso">Ingresso &amp; Formule</button>
+      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="food">Food</button>
       <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
-      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="ingresso">Ingresso &amp; Formule</button>
       <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
     </div>
   </nav>
 
   <main id="menu">
-    <section id="food" class="menu-section is-visible" aria-labelledby="food-heading" data-panel="food">
+    <section id="ingresso" class="menu-section is-visible" aria-labelledby="ingresso-heading" data-panel="ingresso">
+      <h2 id="ingresso-heading" class="section-title">
+        <span class="section-icon" aria-hidden="true">🎟️</span>
+        Ingresso &amp; Formule
+      </h2>
+      <div class="product-list" data-category="ingresso"></div>
+    </section>
+
+    <section id="food" class="menu-section" aria-labelledby="food-heading" data-panel="food" hidden>
       <h2 id="food-heading" class="section-title">
         <span class="section-icon" aria-hidden="true">🍔</span>
         Food
@@ -52,14 +60,6 @@
         Drink
       </h2>
       <div class="product-list" data-category="drink"></div>
-    </section>
-
-    <section id="ingresso" class="menu-section" aria-labelledby="ingresso-heading" data-panel="ingresso" hidden>
-      <h2 id="ingresso-heading" class="section-title">
-        <span class="section-icon" aria-hidden="true">🎟️</span>
-        Ingresso &amp; Formule
-      </h2>
-      <div class="product-list" data-category="ingresso"></div>
     </section>
 
     <section id="allergeni" class="allergens" aria-labelledby="allergeni-heading" data-panel="allergeni" hidden>
