@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Menu digitale Bamboo Cinema Club — food, drink, biglietti e formule risparmio.">
+  <meta name="theme-color" content="#0b140a">
+  <title>Bamboo Cinema Club — Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+</head>
+<body>
+  <a class="skip-link" href="#menu">Vai al menu</a>
+
+  <header class="site-header">
+    <div class="header-glow" aria-hidden="true"></div>
+    <img
+      class="brand-logo"
+      src="assets/logo.png"
+      alt="Bamboo Cinema Club"
+      width="320"
+      height="320"
+      decoding="async"
+    >
+    <p class="tagline">Menu digitale · Ordina e paga dal tuo posto</p>
+  </header>
+
+  <nav class="category-nav" aria-label="Categorie menu">
+    <div class="category-nav-inner" role="tablist">
+      <button type="button" class="category-btn is-active" role="tab" aria-selected="true" data-target="food">Food</button>
+      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
+      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="ingresso">Ingresso &amp; Formule</button>
+      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
+    </div>
+  </nav>
+
+  <main id="menu">
+    <section id="food" class="menu-section is-visible" aria-labelledby="food-heading" data-panel="food">
+      <h2 id="food-heading" class="section-title">
+        <span class="section-icon" aria-hidden="true">🍔</span>
+        Food
+      </h2>
+      <div class="product-list" data-category="food"></div>
+    </section>
+
+    <section id="drink" class="menu-section" aria-labelledby="drink-heading" data-panel="drink" hidden>
+      <h2 id="drink-heading" class="section-title">
+        <span class="section-icon" aria-hidden="true">🥤</span>
+        Drink
+      </h2>
+      <div class="product-list" data-category="drink"></div>
+    </section>
+
+    <section id="ingresso" class="menu-section" aria-labelledby="ingresso-heading" data-panel="ingresso" hidden>
+      <h2 id="ingresso-heading" class="section-title">
+        <span class="section-icon" aria-hidden="true">🎟️</span>
+        Ingresso &amp; Formule
+      </h2>
+      <div class="product-list" data-category="ingresso"></div>
+    </section>
+
+    <section id="allergeni" class="allergens" aria-labelledby="allergeni-heading" data-panel="allergeni" hidden>
+      <h2 id="allergeni-heading" class="section-title">Allergeni</h2>
+      <p class="allergens-intro">
+        Informazioni indicative. Per esigenze alimentari specifiche, chiedi assistenza via WhatsApp prima di ordinare.
+      </p>
+      <ul class="allergen-list">
+        <li><strong>Hot Dog</strong> — glutine (pane), uova (maionese), senape, latticini possibili nei condimenti.</li>
+        <li><strong>Pop Corn</strong> — può contenere tracce di latte o aroma burro (verifica in loco).</li>
+        <li><strong>Birra bionda non filtrata</strong> — glutine (orzo/cereali).</li>
+        <li><strong>Coca Cola / The al limone</strong> — verificare etichetta; possibili coloranti e acidificanti.</li>
+      </ul>
+      <p class="allergens-note">
+        Elenco dimostrativo da aggiornare con le dichiarazioni ufficiali del locale.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Bamboo Cinema Club</p>
+    <p class="footer-copy">Pagamento sicuro tramite PayPal · Conferma mostrata al personale</p>
+  </footer>
+
+  <a
+    class="whatsapp-fab"
+    id="whatsapp-link"
+    href="#"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Assistenza WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span>Assistenza</span>
+  </a>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
