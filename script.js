@@ -29,6 +29,15 @@ const PRODUCTS = [
     price: 3,
   },
   {
+    id: "formula-2",
+    category: "food",
+    name: "Formula Risparmio 2",
+    description:
+      "Include: Pop Corn + una bevanda a scelta tra Coca Cola lattina 33 cl o The al Limone lattina 33 cl.",
+    note: "Indica la bevanda scelta nelle modifiche food.",
+    price: 5,
+  },
+  {
     id: "birra-bionda",
     category: "drink",
     name: "Birra media Non Filtrata 50 cl",
@@ -67,15 +76,6 @@ const PRODUCTS = [
     description: "Include: Biglietto Ingresso + Hot Dog + Birra media Non Filtrata 50 cl.",
     note: "",
     price: 10,
-  },
-  {
-    id: "formula-2",
-    category: "ingresso",
-    name: "Formula Risparmio 2",
-    description:
-      "Include: Pop Corn + una bevanda a scelta tra Coca Cola lattina 33 cl o The al Limone lattina 33 cl.",
-    note: "Indica la bevanda scelta nelle modifiche food.",
-    price: 5,
   },
 ];
 
