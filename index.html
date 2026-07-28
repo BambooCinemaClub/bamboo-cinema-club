@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -26,7 +26,7 @@
       decoding="async"
     >
     <p class="tagline">Menu digitale · Ordina e paga dal tuo posto</p>
-    <p class="how-to">Tocca <strong>Aggiungi</strong> sui prodotti, poi apri il <strong>Carrello</strong> per posto a sedere e pagamento.</p>
+    <p class="how-to">Tocca <strong>Aggiungi</strong>, poi <strong>Finalizza ordine</strong> nella barra in basso per posto a sedere e pagamento.</p>
   </header>
 
   <nav class="category-nav" aria-label="Categorie menu">
@@ -37,8 +37,8 @@
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
         <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
       </div>
-      <button type="button" class="nav-cart-btn" id="cart-open-nav" aria-label="Apri carrello">
-        🛒 Carrello
+      <button type="button" class="nav-cart-btn" id="cart-open-nav" aria-label="Finalizza ordine">
+        Finalizza
         <span class="cart-badge cart-badge-nav" id="cart-badge-nav" hidden>0</span>
       </button>
     </div>
@@ -105,11 +105,15 @@
       </svg>
       <span>Aiuto</span>
     </a>
+  </div>
 
-    <button type="button" class="cart-fab" id="cart-open" aria-label="Apri carrello">
-      <span class="cart-fab-icon" aria-hidden="true">🛒</span>
-      <span>Carrello</span>
-      <span class="cart-badge" id="cart-badge" hidden>0</span>
+  <div class="cart-bar" id="cart-bar" hidden>
+    <div class="cart-bar-info">
+      <strong id="cart-bar-count">0 prodotti</strong>
+      <span id="cart-bar-total">€ 0</span>
+    </div>
+    <button type="button" class="btn-buy cart-bar-btn" id="finalize-order">
+      Finalizza ordine
     </button>
   </div>
 
@@ -117,18 +121,14 @@
 
   <aside class="cart-drawer" id="cart-drawer" hidden aria-labelledby="cart-title">
     <div class="cart-header">
-      <h2 id="cart-title">Il tuo ordine</h2>
-      <button type="button" class="cart-close" id="cart-close" aria-label="Chiudi carrello">×</button>
+      <h2 id="cart-title">Finalizza ordine</h2>
+      <button type="button" class="cart-close" id="cart-close" aria-label="Chiudi">×</button>
     </div>
 
     <div class="cart-body">
-      <div id="cart-empty" class="cart-empty">
-        Il carrello è vuoto. Aggiungi prodotti dal menu.
-      </div>
+      <ul class="cart-lines" id="cart-lines"></ul>
 
-      <ul class="cart-lines" id="cart-lines" hidden></ul>
-
-      <form id="checkout-form" class="checkout-form" hidden>
+      <form id="checkout-form" class="checkout-form">
         <label class="field">
           <span>Posto a sedere *</span>
           <input
@@ -171,6 +171,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=8" defer></script>
+  <script src="script.js?v=9" defer></script>
 </body>
 </html>

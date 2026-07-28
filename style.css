@@ -465,7 +465,7 @@ main {
   position: relative;
   z-index: 1;
   text-align: center;
-  padding: 2rem 1rem 7rem;
+  padding: 2rem 1rem 8.5rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
 }
@@ -489,7 +489,7 @@ main {
 .fab-stack {
   position: fixed;
   right: 1rem;
-  bottom: 1.25rem;
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0));
   z-index: 40;
   display: flex;
   flex-direction: column;
@@ -497,8 +497,93 @@ main {
   gap: 0.65rem;
 }
 
-.whatsapp-fab,
-.cart-fab {
+.cart-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0));
+  background: rgba(11, 20, 10, 0.96);
+  border-top: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.cart-bar[hidden] {
+  display: none !important;
+}
+
+.cart-bar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.cart-bar-info strong {
+  font-size: 0.95rem;
+  color: var(--cream);
+}
+
+.cart-bar-info span {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  color: var(--bamboo);
+}
+
+.cart-bar-btn {
+  flex: 0 0 auto;
+  min-height: 2.6rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.72rem;
+}
+
+.cart-overlay[hidden],
+.cart-drawer[hidden] {
+  display: none !important;
+}
+
+.cart-drawer {
+  position: fixed;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: calc(0.6rem + env(safe-area-inset-bottom, 0));
+  top: auto;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-height: min(58dvh, 28rem);
+  height: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  animation: sheet-up 0.3s ease-out both;
+}
+
+.cart-drawer::before {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .cart-drawer {
+    left: auto;
+    right: 1rem;
+    bottom: 1rem;
+    width: min(100% - 2rem, 24rem);
+    max-height: min(70vh, 36rem);
+  }
+}
+
+.whatsapp-fab {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -513,26 +598,15 @@ main {
   box-shadow: var(--shadow);
   cursor: pointer;
   transition: transform 0.2s, filter 0.2s;
-}
-
-.whatsapp-fab {
   background: #25d366;
 }
 
-.cart-fab {
-  position: relative;
-  background: linear-gradient(180deg, #8fbf55 0%, var(--bamboo) 55%, var(--bamboo-deep) 100%);
-  color: var(--bg-deep);
-}
-
-.whatsapp-fab:hover,
-.cart-fab:hover {
+.whatsapp-fab:hover {
   filter: brightness(1.06);
   transform: translateY(-2px);
 }
 
-.whatsapp-fab:focus-visible,
-.cart-fab:focus-visible {
+.whatsapp-fab:focus-visible {
   outline: 2px solid var(--cream);
   outline-offset: 3px;
 }
@@ -542,9 +616,6 @@ main {
 }
 
 .cart-badge {
-  position: absolute;
-  top: -0.35rem;
-  right: -0.2rem;
   min-width: 1.35rem;
   height: 1.35rem;
   padding: 0 0.3rem;
@@ -562,59 +633,6 @@ main {
   inset: 0;
   z-index: 50;
   background: rgba(0, 0, 0, 0.55);
-}
-
-.cart-drawer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: auto;
-  z-index: 60;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-height: min(72dvh, 32rem);
-  height: auto;
-  background: var(--bg);
-  border-top: 1px solid var(--line);
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
-  animation: sheet-up 0.3s ease-out both;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-
-.cart-drawer::before {
-  content: "";
-  display: block;
-  width: 2.5rem;
-  height: 0.28rem;
-  margin: 0.55rem auto 0.15rem;
-  border-radius: 999px;
-  background: rgba(240, 234, 216, 0.28);
-  flex-shrink: 0;
-}
-
-@media (min-width: 768px) {
-  .cart-drawer {
-    left: auto;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: min(100%, 26rem);
-    max-height: none;
-    height: 100%;
-    border-radius: 0;
-    border-top: none;
-    border-left: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    animation: rise-in 0.3s ease-out both;
-    padding-bottom: 0;
-  }
-
-  .cart-drawer::before {
-    display: none;
-  }
 }
 
 body.cart-open {

@@ -231,7 +231,11 @@ function setupWhatsApp() {
   link.href = whatsappUrl(CONFIG.whatsappMessage);
 }
 
-function openCart() {
+function openCheckout() {
+  if (cart.length === 0) {
+    showToast("Aggiungi almeno un prodotto");
+    return;
+  }
   const drawer = document.getElementById("cart-drawer");
   const overlay = document.getElementById("cart-overlay");
   if (!drawer || !overlay) return;
@@ -239,9 +243,10 @@ function openCart() {
   overlay.hidden = false;
   document.body.classList.add("cart-open");
   renderCart();
+  document.getElementById("seat-input")?.focus();
 }
 
-function closeCart() {
+function closeCheckout() {
   const drawer = document.getElementById("cart-drawer");
   const overlay = document.getElementById("cart-overlay");
   if (!drawer || !overlay) return;
@@ -251,34 +256,34 @@ function closeCart() {
 }
 
 function renderCart() {
-  const badge = document.getElementById("cart-badge");
   const badgeNav = document.getElementById("cart-badge-nav");
-  const empty = document.getElementById("cart-empty");
+  const bar = document.getElementById("cart-bar");
+  const barCount = document.getElementById("cart-bar-count");
+  const barTotal = document.getElementById("cart-bar-total");
   const linesEl = document.getElementById("cart-lines");
-  const form = document.getElementById("checkout-form");
   const totalEl = document.getElementById("cart-total");
   const payBtn = document.getElementById("pay-button");
   const count = cartCount();
+  const total = cartTotal();
 
-  [badge, badgeNav].forEach((el) => {
-    if (!el) return;
-    el.textContent = String(count);
-    el.hidden = count === 0;
-  });
+  if (badgeNav) {
+    badgeNav.textContent = String(count);
+    badgeNav.hidden = count === 0;
+  }
 
-  if (!linesEl || !empty || !form || !totalEl) return;
+  if (bar) bar.hidden = count === 0;
+  if (barCount) {
+    barCount.textContent = count === 1 ? "1 prodotto" : `${count} prodotti`;
+  }
+  if (barTotal) barTotal.textContent = formatPrice(total);
+
+  if (!linesEl || !totalEl) return;
 
   if (cart.length === 0) {
-    empty.hidden = false;
-    linesEl.hidden = true;
-    form.hidden = true;
+    closeCheckout();
     linesEl.replaceChildren();
     return;
   }
-
-  empty.hidden = true;
-  linesEl.hidden = false;
-  form.hidden = false;
 
   linesEl.replaceChildren(
     ...cart.map((line) => {
@@ -323,16 +328,15 @@ function renderCart() {
     })
   );
 
-  const total = cartTotal();
   totalEl.textContent = formatPrice(total);
   if (payBtn) payBtn.textContent = `Invia ordine · ${formatPrice(total)}`;
 }
 
 function setupCartUI() {
-  document.getElementById("cart-open")?.addEventListener("click", openCart);
-  document.getElementById("cart-open-nav")?.addEventListener("click", openCart);
-  document.getElementById("cart-close")?.addEventListener("click", closeCart);
-  document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
+  document.getElementById("finalize-order")?.addEventListener("click", openCheckout);
+  document.getElementById("cart-open-nav")?.addEventListener("click", openCheckout);
+  document.getElementById("cart-close")?.addEventListener("click", closeCheckout);
+  document.getElementById("cart-overlay")?.addEventListener("click", closeCheckout);
 
   document.getElementById("checkout-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
