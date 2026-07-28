@@ -248,6 +248,7 @@ function closeCart() {
 
 function renderCart() {
   const badge = document.getElementById("cart-badge");
+  const badgeNav = document.getElementById("cart-badge-nav");
   const empty = document.getElementById("cart-empty");
   const linesEl = document.getElementById("cart-lines");
   const form = document.getElementById("checkout-form");
@@ -255,10 +256,11 @@ function renderCart() {
   const payBtn = document.getElementById("pay-button");
   const count = cartCount();
 
-  if (badge) {
-    badge.textContent = String(count);
-    badge.hidden = count === 0;
-  }
+  [badge, badgeNav].forEach((el) => {
+    if (!el) return;
+    el.textContent = String(count);
+    el.hidden = count === 0;
+  });
 
   if (!linesEl || !empty || !form || !totalEl) return;
 
@@ -324,6 +326,7 @@ function renderCart() {
 
 function setupCartUI() {
   document.getElementById("cart-open")?.addEventListener("click", openCart);
+  document.getElementById("cart-open-nav")?.addEventListener("click", openCart);
   document.getElementById("cart-close")?.addEventListener("click", closeCart);
   document.getElementById("cart-overlay")?.addEventListener("click", closeCart);
 

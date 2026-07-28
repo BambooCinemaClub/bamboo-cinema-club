@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -26,14 +26,21 @@
       decoding="async"
     >
     <p class="tagline">Menu digitale · Ordina e paga dal tuo posto</p>
+    <p class="how-to">Tocca <strong>Aggiungi</strong> sui prodotti, poi apri il <strong>Carrello</strong> per posto a sedere e pagamento.</p>
   </header>
 
   <nav class="category-nav" aria-label="Categorie menu">
-    <div class="category-nav-inner" role="tablist">
-      <button type="button" class="category-btn is-active" role="tab" aria-selected="true" data-target="ingresso">Ingresso &amp; Formule</button>
-      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="food">Food</button>
-      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
-      <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
+    <div class="category-nav-bar">
+      <div class="category-nav-inner" role="tablist">
+        <button type="button" class="category-btn is-active" role="tab" aria-selected="true" data-target="ingresso">Ingresso &amp; Formule</button>
+        <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="food">Food</button>
+        <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="drink">Drink</button>
+        <button type="button" class="category-btn" role="tab" aria-selected="false" data-target="allergeni">Allergeni</button>
+      </div>
+      <button type="button" class="nav-cart-btn" id="cart-open-nav" aria-label="Apri carrello">
+        🛒 Carrello
+        <span class="cart-badge cart-badge-nav" id="cart-badge-nav" hidden>0</span>
+      </button>
     </div>
   </nav>
 
@@ -164,6 +171,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js" defer></script>
+  <script src="script.js?v=3" defer></script>
 </body>
 </html>
