@@ -202,7 +202,6 @@ function buildOrderMessage(order) {
   const lines = order.items.map(
     (item) => `• ${item.qty}× ${item.name} (${formatPrice(item.lineTotal)})`
   );
-  const notes = order.notes?.trim() ? order.notes.trim() : "Nessuna";
   return [
     "🎬 Nuovo ordine — Bamboo Cinema Club",
     `Posto: ${order.seat}`,
@@ -211,7 +210,6 @@ function buildOrderMessage(order) {
     ...lines,
     "",
     `Totale: ${formatPrice(order.total)}`,
-    `Note: ${notes}`,
     "",
     "Ho pagato / sto pagando con PayPal.",
   ].join("\n");
@@ -335,7 +333,6 @@ function setupCartUI() {
     if (cart.length === 0) return;
 
     const seat = document.getElementById("seat-input")?.value.trim() || "";
-    const notes = document.getElementById("notes-input")?.value.trim() || "";
 
     if (!seat) {
       document.getElementById("seat-input")?.focus();
@@ -345,7 +342,6 @@ function setupCartUI() {
 
     const order = {
       seat,
-      notes,
       total: cartTotal(),
       createdAt: new Date().toISOString(),
       items: cart.map((line) => {
@@ -433,7 +429,6 @@ function initSuccessPage() {
       <p><strong>Posto:</strong> ${escapeHtml(order.seat)}</p>
       <ul>${list}</ul>
       <p><strong>Totale:</strong> ${formatPrice(order.total)}</p>
-      <p><strong>Note:</strong> ${escapeHtml(order.notes || "Nessuna")}</p>
     `;
   }
 
