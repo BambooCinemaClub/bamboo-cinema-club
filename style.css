@@ -500,18 +500,7 @@ main {
   font-weight: 300;
 }
 
-/* ——— FAB stack / cart / WhatsApp ——— */
-
-.fab-stack {
-  position: fixed;
-  right: 1rem;
-  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0));
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.65rem;
-}
+/* ——— Cart bar / drawer ——— */
 
 .cart-bar {
   position: fixed;
@@ -597,38 +586,6 @@ main {
     width: min(100% - 2rem, 24rem);
     max-height: min(70vh, 36rem);
   }
-}
-
-.whatsapp-fab {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.75rem 1.1rem;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  border-radius: 999px;
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
-  background: #25d366;
-}
-
-.whatsapp-fab:hover {
-  filter: brightness(1.06);
-  transform: translateY(-2px);
-}
-
-.whatsapp-fab:focus-visible {
-  outline: 2px solid var(--cream);
-  outline-offset: 3px;
-}
-
-.whatsapp-fab svg {
-  flex-shrink: 0;
 }
 
 .cart-badge {
@@ -897,12 +854,6 @@ body.cart-open {
 .success-actions-stack .btn-buy,
 .success-actions-stack .btn-secondary {
   width: 100%;
-}
-
-.btn-whatsapp {
-  background: #25d366 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35) !important;
 }
 
 /* ——— Success page ——— */

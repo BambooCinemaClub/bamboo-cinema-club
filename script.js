@@ -5,9 +5,6 @@
 
 const CONFIG = {
   paypalMe: "https://www.paypal.me/florianoserafin",
-  // Numero WhatsApp del cuoco / locale (cifre con prefisso, senza +)
-  whatsappNumber: "393318563277",
-  whatsappMessage: "Ciao Bamboo Cinema Club! Vorrei assistenza per un ordine dal menu digitale.",
   successPage: "success.html",
   cartKey: "bamboo-cart",
   orderKey: "bamboo-pending-order",
@@ -247,17 +244,6 @@ async function copyText(text) {
   return ok;
 }
 
-
-function whatsappUrl(text) {
-  return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
-}
-
-function setupWhatsApp() {
-  const link = document.getElementById("whatsapp-link");
-  if (!link) return;
-  link.href = whatsappUrl(CONFIG.whatsappMessage);
-}
-
 function openCheckout() {
   if (cart.length === 0) {
     showToast("Aggiungi almeno un prodotto");
@@ -447,11 +433,9 @@ function setupCategoryNav() {
 function initSuccessPage() {
   const summary = document.getElementById("order-summary");
   const pay = document.getElementById("pay-paypal");
-  const assist = document.getElementById("whatsapp-link");
   const noteBox = document.getElementById("paypal-note-box");
   const noteText = document.getElementById("paypal-note-text");
   const copyBtn = document.getElementById("copy-paypal-note");
-  if (assist) assist.href = whatsappUrl(CONFIG.whatsappMessage);
 
   let order = null;
   try {
@@ -528,8 +512,6 @@ function escapeHtml(value) {
 }
 
 function init() {
-  setupWhatsApp();
-
   if (document.getElementById("cart-drawer")) {
     renderMenu();
     setupCategoryNav();
