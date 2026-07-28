@@ -508,8 +508,8 @@ function initSuccessPage() {
       const ok = await copyText(paypalNote);
       showToast(
         ok
-          ? "Nota copiata. Su PayPal: Aggiungi una nota → Incolla"
-          : "Copia la nota e incollala su PayPal"
+          ? "Nota copiata. Su PayPal: Amici e parenti + Aggiungi nota → Incolla"
+          : "Copia la nota. Su PayPal scegli Amici e parenti"
       );
       // Stessa finestra: apre il pagamento con importo già impostato
       window.setTimeout(() => {
