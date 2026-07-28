@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -142,8 +142,19 @@
           >
         </label>
 
+        <label class="field">
+          <span>Eventuali modifiche agli ingredienti</span>
+          <textarea
+            id="ingredients-input"
+            name="ingredients"
+            rows="3"
+            maxlength="400"
+            placeholder="Es. Hot Dog senza cetriolini · Formula 2 con Coca Cola"
+          ></textarea>
+        </label>
+
         <p class="checkout-hint">
-          PayPal notifica il pagamento. Con WhatsApp invii posto e prodotti al locale.
+          PayPal notifica il pagamento. Con WhatsApp invii posto, prodotti e modifiche al locale.
         </p>
 
         <div class="cart-total-row">
@@ -160,6 +171,6 @@
 
   <div class="toast" id="toast" hidden role="status"></div>
 
-  <script src="script.js?v=5" defer></script>
+  <script src="script.js?v=6" defer></script>
 </body>
 </html>
