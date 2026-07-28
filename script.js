@@ -5,11 +5,13 @@
 
 const CONFIG = {
   paypalMe: "https://www.paypal.me/florianoserafin",
+  // Numero WhatsApp del cuoco / locale (cifre con prefisso, senza +)
   whatsappNumber: "393318563277",
   whatsappMessage: "Ciao Bamboo Cinema Club! Vorrei assistenza per un ordine dal menu digitale.",
   successPage: "success.html",
   cartKey: "bamboo-cart",
   orderKey: "bamboo-pending-order",
+  waOpenedKey: "bamboo-wa-opened",
 };
 
 const PRODUCTS = [
@@ -323,7 +325,7 @@ function renderCart() {
 
   const total = cartTotal();
   totalEl.textContent = formatPrice(total);
-  if (payBtn) payBtn.textContent = `Continua · ${formatPrice(total)}`;
+  if (payBtn) payBtn.textContent = `Invia ordine · ${formatPrice(total)}`;
 }
 
 function setupCartUI() {
@@ -364,6 +366,7 @@ function setupCartUI() {
     };
 
     sessionStorage.setItem(CONFIG.orderKey, JSON.stringify(order));
+    sessionStorage.removeItem(CONFIG.waOpenedKey);
     localStorage.removeItem(CONFIG.cartKey);
     cart = [];
     window.location.href = CONFIG.successPage;
@@ -403,6 +406,22 @@ function setupCategoryNav() {
   if (hash && document.querySelector(`[data-panel="${hash}"]`)) showCategory(hash);
 }
 
+function setPaypalUnlocked(unlocked) {
+  const pay = document.getElementById("pay-paypal");
+  const hint = document.getElementById("paypal-lock-hint");
+  if (!pay) return;
+
+  if (unlocked) {
+    pay.classList.remove("is-locked");
+    pay.removeAttribute("aria-disabled");
+    if (hint) hint.hidden = true;
+  } else {
+    pay.classList.add("is-locked");
+    pay.setAttribute("aria-disabled", "true");
+    if (hint) hint.hidden = false;
+  }
+}
+
 function initSuccessPage() {
   const summary = document.getElementById("order-summary");
   const notify = document.getElementById("notify-whatsapp");
@@ -440,15 +459,40 @@ function initSuccessPage() {
     `;
   }
 
-  if (pay) {
-    pay.hidden = false;
-    pay.href = paypalUrlFor(order.total);
-    pay.textContent = `1. Paga ${formatPrice(order.total)} con PayPal`;
-  }
+  const waHref = whatsappUrl(buildOrderMessage(order));
 
   if (notify) {
     notify.hidden = false;
-    notify.href = whatsappUrl(buildOrderMessage(order));
+    notify.href = waHref;
+    notify.addEventListener("click", () => {
+      sessionStorage.setItem(CONFIG.waOpenedKey, "1");
+      setPaypalUnlocked(true);
+    });
+  }
+
+  if (pay) {
+    pay.hidden = false;
+    pay.href = paypalUrlFor(order.total);
+    pay.textContent = `2. Paga ${formatPrice(order.total)} con PayPal`;
+    pay.addEventListener("click", (event) => {
+      if (pay.classList.contains("is-locked")) {
+        event.preventDefault();
+        showToast("Prima invia il WhatsApp al cuoco");
+        notify?.focus();
+      }
+    });
+  }
+
+  const alreadyOpened = sessionStorage.getItem(CONFIG.waOpenedKey) === "1";
+  setPaypalUnlocked(alreadyOpened);
+
+  // Apre automaticamente WhatsApp verso il cuoco (l’utente deve solo toccare Invia)
+  if (!alreadyOpened) {
+    sessionStorage.setItem(CONFIG.waOpenedKey, "1");
+    setPaypalUnlocked(true);
+    window.setTimeout(() => {
+      window.location.href = waHref;
+    }, 450);
   }
 }
 

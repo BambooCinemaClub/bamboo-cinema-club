@@ -873,12 +873,29 @@ body.cart-open {
   letter-spacing: 0.08em;
 }
 
-.success-page p {
+.success-alert {
   max-width: 28rem;
   margin: 0.85rem 0 0;
-  color: var(--muted);
-  font-weight: 300;
+  padding: 0.85rem 1rem;
+  color: var(--cream) !important;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: var(--radius);
+  font-weight: 400 !important;
 }
+
+.btn-buy.is-locked {
+  opacity: 0.45;
+  filter: grayscale(0.35);
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+#paypal-lock-hint {
+  text-align: center;
+  margin-top: -0.25rem;
+}
+
 
 .success-actions {
   display: flex;

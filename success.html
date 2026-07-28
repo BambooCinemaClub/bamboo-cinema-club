@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Conferma pagamento — Bamboo Cinema Club">
+  <meta name="description" content="Conferma ordine — Bamboo Cinema Club">
   <meta name="theme-color" content="#0b140a">
   <title>Conferma ordine — Bamboo Cinema Club</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=8">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
 <body>
@@ -24,25 +24,15 @@
       style="width: min(200px, 70vw); margin-bottom: 1.5rem;"
     >
     <div class="success-mark" aria-hidden="true">✓</div>
-    <h1>Conferma ordine</h1>
-    <p>
-      Controlla il riepilogo. Paga il totale su PayPal (il locale riceve la notifica PayPal),
-      poi invia l’ordine su WhatsApp con posto e eventuali modifiche agli ingredienti.
+    <h1>Invia l’ordine al cuoco</h1>
+    <p class="success-alert">
+      Per far partire la preparazione, <strong>devi inviare il messaggio WhatsApp</strong> al cuoco.
+      Si apre la chat già compilata: tocca <strong>Invia</strong>.
     </p>
 
     <div id="order-summary" class="order-summary" hidden></div>
 
     <div class="success-actions success-actions-stack">
-      <a
-        class="btn-buy"
-        id="pay-paypal"
-        href="#"
-        target="_blank"
-        rel="noopener noreferrer"
-        hidden
-      >
-        1. Paga con PayPal
-      </a>
       <a
         class="btn-buy btn-whatsapp"
         id="notify-whatsapp"
@@ -51,8 +41,22 @@
         rel="noopener noreferrer"
         hidden
       >
-        2. Invia ordine su WhatsApp
+        1. Invia ordine al cuoco su WhatsApp
       </a>
+      <a
+        class="btn-buy"
+        id="pay-paypal"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        hidden
+        aria-disabled="true"
+      >
+        2. Paga con PayPal
+      </a>
+      <p class="checkout-hint" id="paypal-lock-hint">
+        Prima invia il WhatsApp al cuoco, poi potrai pagare con PayPal.
+      </p>
       <a class="btn-secondary" href="index.html">Torna al menu</a>
       <a
         class="btn-secondary"
@@ -65,6 +69,6 @@
       </a>
     </div>
   </main>
-  <script src="script.js?v=7" defer></script>
+  <script src="script.js?v=8" defer></script>
 </body>
 </html>
