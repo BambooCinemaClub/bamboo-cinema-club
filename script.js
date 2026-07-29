@@ -16,15 +16,15 @@ const PRODUCTS = [
     category: "food",
     name: "Hot Dog",
     description:
-      "Include di base: maionese, ketchup, senape, crunchy chips e cetriolini.",
-    note: "Scrivi nelle note dell’ordine se vuoi RIMUOVERE ingredienti (es. «Senza cetriolini»).",
+      "Include di base: maionese, ketchup, senape, crunchy chips e cetriolini. Disponibile anche VEGAN (specificare VEGAN nelle note).",
+    note: "Scrivi nelle note dell’ordine se vuoi RIMUOVERE ingredienti (es. «Senza cetriolini») o se vuoi la versione VEGAN.",
     price: 5,
   },
   {
     id: "pop-corn",
     category: "food",
     name: "Pop Corn",
-    description: "Pop Corn salati, caldi e croccanti.",
+    description: "Pop Corn salati.",
     note: "",
     price: 3,
   },
@@ -73,8 +73,9 @@ const PRODUCTS = [
     id: "formula-1",
     category: "ingresso",
     name: "Formula Risparmio 1",
-    description: "Include: Biglietto Ingresso + Hot Dog + Birra media Non Filtrata 50 cl.",
-    note: "",
+    description:
+      "Include: Biglietto Ingresso + Hot Dog + Birra media Non Filtrata 50 cl. Hot Dog disponibile anche VEGAN (specificare VEGAN nelle note).",
+    note: "Se vuoi l’Hot Dog vegan, scrivi VEGAN nelle note.",
     price: 10,
   },
 ];
